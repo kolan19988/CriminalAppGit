@@ -9,17 +9,16 @@ class CrimeLab private constructor(context: Context){
 
         fun get(context: Context): CrimeLab? {
             if(sCrimeLab == null){
+
                 sCrimeLab = CrimeLab(context)
 
             }
             return sCrimeLab
         }
     }
-    init {
-        testData()
-    }
+
     private fun testData(){
-        for(i in 1..101){
+        for(i in 1..100){
             var c = Crime()
             c.mTitle = "Crime #$i"
             c.mSolved = (i%2==0)
@@ -29,6 +28,7 @@ class CrimeLab private constructor(context: Context){
     private var mCrimes: MutableList<Crime> = mutableListOf()
 
     fun getCrimes() : List<Crime>{
+        testData()
         return mCrimes
     }
     fun getCrimeById(id: UUID):Crime{
