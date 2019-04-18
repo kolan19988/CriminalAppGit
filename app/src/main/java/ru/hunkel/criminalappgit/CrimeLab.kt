@@ -21,7 +21,7 @@ class CrimeLab private constructor(context: Context){
         for(i in 1..100){
             var c = Crime()
             c.mTitle = "Crime #$i"
-            c.mSolved = (i%2==0)
+            c.mSolved = i%2 != 0
             mCrimes.add(c)
         }
     }
