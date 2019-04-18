@@ -13,6 +13,8 @@ import android.widget.Toast
 class CrimeListFragment : Fragment() {
     private var mCrimeRecyclerView: RecyclerView? = null
     private var mAdapter: CrimeAdapter? = null
+    val CRIME = 0
+    val EXTEND_CRIME = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_crime_list,container,false)
@@ -28,10 +30,11 @@ class CrimeListFragment : Fragment() {
         mAdapter = CrimeAdapter(crimes!!)
         mCrimeRecyclerView?.adapter = mAdapter
     }
-    inner class CrimeHolder(inflater: LayoutInflater,parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_crime,parent,false)),
+    inner class CrimeHolder(v: View) :
+        RecyclerView.ViewHolder(v),
         View.OnClickListener{
-        override fun onClick(v: View?) {
+
+        override fun onClick(view: View?) {
             Toast.makeText(activity,mCrime.mId.toString(),Toast.LENGTH_SHORT).show()
         }
 
@@ -39,6 +42,9 @@ class CrimeListFragment : Fragment() {
         private var mDateTextView: TextView? = null
         private var mCrime = Crime()
         init {
+
+
+
             //TODO(ERROR)
             mTitleTextView = itemView.findViewById(R.id.crime_title)
             //TODO(ERROR)
@@ -54,9 +60,13 @@ class CrimeListFragment : Fragment() {
     }
     inner class CrimeAdapter(private var mCrimes: List<Crime>) : RecyclerView.Adapter<CrimeHolder>(){
 
-        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CrimeHolder {
+
+        override fun onCreateViewHolder(p0: ViewGroup,p1: Int): CrimeHolder {
             val inflater = LayoutInflater.from(activity)
-            return CrimeHolder(inflater,p0)
+
+            val v = if(p1 == CRIME) inflater.inflate(R.layout.list_item_crime,p0,false)
+            else inflater.inflate(R.layout.extend_list_item_crime,p0,false)
+            return CrimeHolder(v)
         }
 
         override fun getItemCount(): Int {
@@ -68,5 +78,8 @@ class CrimeListFragment : Fragment() {
             p0.bind(crime)
         }
 
+        override fun getItemViewType(position: Int): Int {
+            return if(mCrimes[position].mSolved) CRIME else EXTEND_CRIME
+        }
     }
 }
