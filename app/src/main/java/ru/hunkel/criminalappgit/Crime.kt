@@ -8,4 +8,6 @@ class Crime {
     var mTitle = ""
     private val dateManager = DateFormat.getDateInstance()
     var mDate = dateManager.format(Date())
+    var mSolved = false
+
 }
