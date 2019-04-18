@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 
 class CrimeListFragment : Fragment() {
     private var mCrimeRecyclerView: RecyclerView? = null
@@ -28,7 +29,12 @@ class CrimeListFragment : Fragment() {
         mCrimeRecyclerView?.adapter = mAdapter
     }
     inner class CrimeHolder(inflater: LayoutInflater,parent: ViewGroup) :
-        RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_crime,parent,false)) {
+        RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_crime,parent,false)),
+        View.OnClickListener{
+        override fun onClick(v: View?) {
+            Toast.makeText(activity,mCrime.mId.toString(),Toast.LENGTH_SHORT).show()
+        }
+
         private var mTitleTextView: TextView? = null
         private var mDateTextView: TextView? = null
         private var mCrime = Crime()
@@ -37,6 +43,7 @@ class CrimeListFragment : Fragment() {
             mTitleTextView = itemView.findViewById(R.id.crime_title)
             //TODO(ERROR)
             mDateTextView = itemView.findViewById(R.id.crime_date)
+            itemView.setOnClickListener(this)
         }
         fun bind(crime: Crime){
             mCrime = crime
