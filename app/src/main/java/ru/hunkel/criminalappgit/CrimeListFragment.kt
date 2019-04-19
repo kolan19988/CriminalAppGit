@@ -1,5 +1,6 @@
 package ru.hunkel.criminalappgit
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -34,7 +35,8 @@ class CrimeListFragment : Fragment() {
         View.OnClickListener{
 
         override fun onClick(v: View?) {
-            Toast.makeText(activity,mCrime.mSolved.toString(),Toast.LENGTH_SHORT).show()
+            val intent = CrimeActivity.newIntent(activity!!,mCrime.mId)
+            startActivity(intent)
         }
 
         private var mTitleTextView: TextView? = null
