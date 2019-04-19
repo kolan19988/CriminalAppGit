@@ -1,6 +1,5 @@
 package ru.hunkel.criminalappgit
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 
 class CrimeListFragment : Fragment() {
     private var mCrimeRecyclerView: RecyclerView? = null
@@ -23,12 +21,22 @@ class CrimeListFragment : Fragment() {
         updateUI()
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+        updateUI()
+    }
     private fun updateUI(){
         //TODO(ERROR)
         val crimeLab = CrimeLab.get(activity!!)
         val crimes = crimeLab?.getCrimes()
-        mAdapter = CrimeAdapter(crimes!!)
-        mCrimeRecyclerView?.adapter = mAdapter
+        if(mAdapter == null){
+            mAdapter = CrimeAdapter(crimes!!)
+            mCrimeRecyclerView?.adapter = mAdapter
+        }else{
+            mAdapter?.notifyDataSetChanged()
+        }
+
     }
     inner class CrimeHolder(inflater: LayoutInflater,parent: ViewGroup) :
         RecyclerView.ViewHolder(inflater.inflate(R.layout.list_item_crime,parent,false)),
@@ -59,7 +67,6 @@ class CrimeListFragment : Fragment() {
             mTitleTextView?.text = mCrime.mTitle
             mDateTextView?.text = mCrime.mDate
             mSolvedImageView?.visibility = if(crime.mSolved) View.VISIBLE else View.GONE
-//            mSolvedImageView?.visibility = if(mCrime.mSolved) View.VISIBLE else false
         }
 
     }
