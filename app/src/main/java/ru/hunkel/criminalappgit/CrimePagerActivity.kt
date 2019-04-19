@@ -32,7 +32,6 @@ class CrimePagerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_crime_pager)
 
         val crimeId = intent.getSerializableExtra(EXTRA_CRIME_ID) as UUID
-        Toast.makeText(this,crimeId.toString(),Toast.LENGTH_SHORT).show()
 
         mViewPager = findViewById(R.id.crime_view_pager)
         //TODO(ERROR)
