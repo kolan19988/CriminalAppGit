@@ -10,8 +10,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import java.util.*
 
 class CrimeFragment : Fragment() {
+    companion object{
+        const val ARG_CRIME_ID = "crime_id"
+
+        fun newInstance(crimeId: UUID):CrimeFragment{
+            val args = Bundle()
+            args.putSerializable(ARG_CRIME_ID,crimeId)
+
+            val fragment = CrimeFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     //TODO(ERROR)
     private var mCrime: Crime = Crime()
     //TODO(ERROR)
@@ -23,6 +37,8 @@ class CrimeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val crimeId = arguments?.getSerializable(ARG_CRIME_ID) as UUID
+        mCrime = CrimeLab.get(activity!!)!!.getCrimeById(crimeId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,10 +49,13 @@ class CrimeFragment : Fragment() {
         mSolvedCheckBox = v.findViewById(R.id.crime_solved)
 
         //set up
+        mTitleField?.setText(mCrime.mTitle)
+        mSolvedCheckBox?.isChecked = mCrime.mSolved
         mDateButton?.text = mCrime.mDate
         mDateButton?.isEnabled = false
 
         //listeners
+
         mSolvedCheckBox?.setOnCheckedChangeListener { _, isChecked ->
             mCrime.mSolved = isChecked
         }
