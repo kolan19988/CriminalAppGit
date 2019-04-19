@@ -69,7 +69,7 @@ class CrimeFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                mTitleField?.setText(s)
+                mCrime.mTitle = s.toString()
             }
         })
         return v
